@@ -31,7 +31,11 @@ class TickerStore {
 
   fetchData = async () => {
     try {
-      const response = await fetch("/api");
+      // const response = await fetch("/api");
+      // use the above in dev
+      const response = await fetch(
+        "https://poloniex.com/public?command=returnTicker"
+      );
       const data: Record<string, TickerValue> = await response.json();
       this.tickerData = Object.entries(data).map(([key, value]) => ({
         tickerName: key,
