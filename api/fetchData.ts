@@ -1,14 +1,19 @@
-import fetch from "node-fetch";
+import type { VercelRequest, VercelResponse } from "@vercel/node";
 
-module.exports = async (req, res) => {
+export default async function handler(
+  request: VercelRequest,
+  response: VercelResponse
+) {
   try {
-    const response = await fetch(
-      "https://poloniex.com/public?command=returnTicker"
-    );
-    const data = await response.json();
-    res.status(200).send(data);
+    const url = "https://poloniex.com/public?command=returnTicker";
+    const apiResponse = await fetch(url);
+    const data = await apiResponse.json();
+
+    return response.status(200).json(data);
   } catch (error) {
-    console.error(error);
-    res.status(error.status || 500).end(error.message);
+    console.error("fetch failed", error);
+
+    // return a 500 Internal Server Error if something goes wrong
+    return response.status(500).json({ error: "Failed to fetch data" });
   }
-};
+}
