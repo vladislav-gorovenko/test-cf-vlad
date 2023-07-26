@@ -33,7 +33,7 @@ class TickerStore {
     try {
       // const response = await fetch("/api");
       // use the above in dev
-      const response = await fetch("api/fetchData");
+      const response = await fetch("/api/fetchData");
       const data: Record<string, TickerValue> = await response.json();
       this.tickerData = Object.entries(data).map(([key, value]) => ({
         tickerName: key,
